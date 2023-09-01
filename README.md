@@ -1,1 +1,1 @@
-# apaper_DAG1
+Simulation scripts for DAG1 manuscript
