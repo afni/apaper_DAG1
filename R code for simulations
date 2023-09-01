@@ -5,7 +5,7 @@ c0  <- 50          # initial child height
 bt  <- 80          # tree slope
 bc  <- 8           # child slope
 st  <- 5           # sd for tree height
-sc  <- 0.5         # sd for child tree height
+sc  <- 0.5         # sd for child height
 dd  <- data.frame(id=paste0('id', 1:length(age)), age=age)
 dd  <- cbind(dd, tree  =t0+bt*dd$age+rnorm(length(age), 0, st), 
                  height=c0+bc*dd$age+rnorm(length(age), 0, sc))
