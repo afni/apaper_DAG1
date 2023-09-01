@@ -1,1 +1,1 @@
-Simulation scripts for DAG1 manuscript
+Simulation code in R for DAG1 manuscript
