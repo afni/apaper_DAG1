@@ -13,25 +13,25 @@ m1 <- lm(height~tree, data=dd)
 m2 <- lm(height~age+tree, data=dd)
 m3 <- lm(height~age, data=dd)
 
-# 95% interval of tree-child association based on model m1
+# 95% interval: tree-child association based on model m1
 c(summary(m1)$coefficients['tree', 'Estimate']-qt(0.975, 
   summary(m1)$df[2])*summary(m1)$coefficients['tree', 'Std. Error'], 
   summary(m1)$coefficients['tree', 'Estimate']+qt(0.975, 
   summary(m1)$df[2])*summary(m1)$coefficients['tree', 'Std. Error'])
 
-# 95% interval of tree-child association based on model m2
+# 95% interval: tree-child association based on model m2
 c(summary(m2)$coefficients['tree', 'Estimate']-qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['tree', 'Std. Error'], 
   summary(m2)$coefficients['tree', 'Estimate']+qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['tree', 'Std. Error'])
   
-# 95% interval of child growth rate (age-child association) based on model m2 
+# 95% interval: child growth rate (age-child association) based on model m2 
 c(summary(m2)$coefficients['age', 'Estimate']-qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['age', 'Std. Error'], 
   summary(m2)$coefficients['age', 'Estimate']+qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['age', 'Std. Error'])
 
-# 95% interval of child growth rate (age-child association) based on model m3
+# 95% interval: child growth rate (age-child association) based on model m3
 c(summary(m3)$coefficients['age', 'Estimate']-qt(0.975, 
   summary(m3)$df[2])*summary(m3)$coefficients['age', 'Std. Error'], 
   summary(m3)$coefficients['age', 'Estimate']+qt(0.975, 
