@@ -1,38 +1,78 @@
 # relationship among age, tree height & child height
-age <- seq(0,17,1) # age values
-t0  <- 20          # initial tree height
-c0  <- 50          # initial child height
-bt  <- 80          # tree slope
-bc  <- 8           # child slope
-st  <- 5           # sd for tree height
-sc  <- 0.5         # sd for child height
-dd  <- data.frame(id=paste0('id', 1:length(age)), age=age)
-dd  <- cbind(dd, tree  =t0+bt*dd$age+rnorm(length(age), 0, st), 
-                 height=c0+bc*dd$age+rnorm(length(age), 0, sc))
-m1 <- lm(height~tree, data=dd)
-m2 <- lm(height~age+tree, data=dd)
-m3 <- lm(height~age, data=dd)
+
+# read in the follow data
+age   tree     child
+0   29.56364  50.35714
+1   98.25783  57.92467
+2  178.23666  65.67699
+3  261.72844  74.28433
+4  332.64236  81.98700
+5  426.97002  90.71328
+6  504.24909  99.02476
+7  580.99696 104.82360
+8  666.45165 113.76515
+9  737.32421 121.41617
+10  814.04910 129.67762
+11  897.03339 138.07759
+12  986.43290 145.39788
+13 1063.47389 154.30743
+14 1134.01635 163.26986
+15 1218.64005 169.73642
+16 1306.34670 177.76773
+17 1377.70919 186.52432
+
+# read in the above data by copy & paste
+dd <- read.delim(pipe("pbpaste"), sep='')
+
+# 5 models
+m1 <- lm(child~tree, data=dd)
+m2 <- lm(child~age+tree, data=dd)
+m3 <- lm(child~age, data=dd)
+m4 <- lm(tree  ~age, data=dd)
+m5 <- lm(tree  ~age+child, data=dd)
 
 # 95% interval: tree-child association based on model m1
-c(summary(m1)$coefficients['tree', 'Estimate']-qt(0.975, 
+c(summary(m1)$coefficients['tree', 'Estimate'], summary(m1)$coefficients['tree', 'Estimate']-qt(0.975, 
   summary(m1)$df[2])*summary(m1)$coefficients['tree', 'Std. Error'], 
   summary(m1)$coefficients['tree', 'Estimate']+qt(0.975, 
   summary(m1)$df[2])*summary(m1)$coefficients['tree', 'Std. Error'])
+#[1] 0.10019925 0.09923493 0.10116357
 
 # 95% interval: tree-child association based on model m2
-c(summary(m2)$coefficients['tree', 'Estimate']-qt(0.975, 
+c(summary(m2)$coefficients['tree', 'Estimate'], 
+  summary(m2)$coefficients['tree', 'Estimate']-qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['tree', 'Std. Error'], 
   summary(m2)$coefficients['tree', 'Estimate']+qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['tree', 'Std. Error'])
-  
-# 95% interval: child growth rate (age-child association) based on model m2 
-c(summary(m2)$coefficients['age', 'Estimate']-qt(0.975, 
+#[1]  0.003516557 -0.062392735  0.069425848
+
+# 95% interval: child growth rate based on model m2
+c(summary(m2)$coefficients['age', 'Estimate'], 
+  summary(m2)$coefficients['age', 'Estimate']-qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['age', 'Std. Error'], 
   summary(m2)$coefficients['age', 'Estimate']+qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['age', 'Std. Error'])
+#[1]  7.722514  2.458388 12.986639
 
-# 95% interval: child growth rate (age-child association) based on model m3
-c(summary(m3)$coefficients['age', 'Estimate']-qt(0.975, 
-  summary(m3)$df[2])*summary(m3)$coefficients['age', 'Std. Error'], 
+# 95% interval: child growth rate based on model m3
+c(summary(m3)$coefficients['age', 'Estimate'], 
+  summary(m3)$coefficients['age', 'Estimate']-qt(0.975,                                                      summary(m3)$df[2])*summary(m3)$coefficients['age', 'Std. Error'], 
   summary(m3)$coefficients['age', 'Estimate']+qt(0.975, 
   summary(m3)$df[2])*summary(m3)$coefficients['age', 'Std. Error'])
+#[1] 8.003359 7.943406 8.063311
+
+# 95% interval: tree growth rate based on model m4
+c(summary(m4)$coefficients['age', 'Estimate'], 
+  summary(m4)$coefficients['age', 'Estimate']-qt(0.975, 
+  summary(m4)$df[2])*summary(m4)$coefficients['age', 'Std. Error'], 
+  summary(m4)$coefficients['age', 'Estimate']+qt(0.975, 
+  summary(m4)$df[2])*summary(m4)$coefficients['age', 'Std. Error'])
+#[1] 79.86367 79.36328 80.36405
+
+# 95% interval: tree growth rate based on model m5
+c(summary(m5)$coefficients['age', 'Estimate'], 
+  summary(m5)$coefficients['age', 'Estimate']-qt(0.975, 
+  summary(m5)$df[2])*summary(m5)$coefficients['age', 'Std. Error'], 
+  summary(m5)$coefficients['age', 'Estimate']+qt(0.975, 
+  summary(m5)$df[2])*summary(m5)$coefficients['age', 'Std. Error'])
+#[1]  77.90310  41.15342 114.65278
