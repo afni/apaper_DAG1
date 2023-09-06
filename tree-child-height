@@ -1,6 +1,6 @@
 # relationship among age, tree height & child height
 
-# read in the follow data
+# simulated data
 age   tree     child
 0   29.56364  50.35714
 1   98.25783  57.92467
@@ -24,21 +24,19 @@ age   tree     child
 # read in the above data by copy & paste
 dd <- read.delim(pipe("pbpaste"), sep='')
 
-# 5 models
+# 3 models
 m1 <- lm(child~tree, data=dd)
 m2 <- lm(child~age+tree, data=dd)
 m3 <- lm(child~age, data=dd)
-m4 <- lm(tree  ~age, data=dd)
-m5 <- lm(tree  ~age+child, data=dd)
 
-# 95% interval: tree-child association based on model m1
+# point estimate & 95% interval: tree-child association based on model m1
 c(summary(m1)$coefficients['tree', 'Estimate'], summary(m1)$coefficients['tree', 'Estimate']-qt(0.975, 
   summary(m1)$df[2])*summary(m1)$coefficients['tree', 'Std. Error'], 
   summary(m1)$coefficients['tree', 'Estimate']+qt(0.975, 
   summary(m1)$df[2])*summary(m1)$coefficients['tree', 'Std. Error'])
 #[1] 0.10019925 0.09923493 0.10116357
 
-# 95% interval: tree-child association based on model m2
+# point estimate & 95% interval: tree-child association based on model m2
 c(summary(m2)$coefficients['tree', 'Estimate'], 
   summary(m2)$coefficients['tree', 'Estimate']-qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['tree', 'Std. Error'], 
@@ -46,7 +44,7 @@ c(summary(m2)$coefficients['tree', 'Estimate'],
   summary(m2)$df[2])*summary(m2)$coefficients['tree', 'Std. Error'])
 #[1]  0.003516557 -0.062392735  0.069425848
 
-# 95% interval: child growth rate based on model m2
+# point estimate & 95% interval: child growth rate based on model m2
 c(summary(m2)$coefficients['age', 'Estimate'], 
   summary(m2)$coefficients['age', 'Estimate']-qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['age', 'Std. Error'], 
@@ -54,25 +52,9 @@ c(summary(m2)$coefficients['age', 'Estimate'],
   summary(m2)$df[2])*summary(m2)$coefficients['age', 'Std. Error'])
 #[1]  7.722514  2.458388 12.986639
 
-# 95% interval: child growth rate based on model m3
+# point estimate & 95% interval: child growth rate based on model m3
 c(summary(m3)$coefficients['age', 'Estimate'], 
   summary(m3)$coefficients['age', 'Estimate']-qt(0.975,                                                      summary(m3)$df[2])*summary(m3)$coefficients['age', 'Std. Error'], 
   summary(m3)$coefficients['age', 'Estimate']+qt(0.975, 
   summary(m3)$df[2])*summary(m3)$coefficients['age', 'Std. Error'])
 #[1] 8.003359 7.943406 8.063311
-
-# 95% interval: tree growth rate based on model m4
-c(summary(m4)$coefficients['age', 'Estimate'], 
-  summary(m4)$coefficients['age', 'Estimate']-qt(0.975, 
-  summary(m4)$df[2])*summary(m4)$coefficients['age', 'Std. Error'], 
-  summary(m4)$coefficients['age', 'Estimate']+qt(0.975, 
-  summary(m4)$df[2])*summary(m4)$coefficients['age', 'Std. Error'])
-#[1] 79.86367 79.36328 80.36405
-
-# 95% interval: tree growth rate based on model m5
-c(summary(m5)$coefficients['age', 'Estimate'], 
-  summary(m5)$coefficients['age', 'Estimate']-qt(0.975, 
-  summary(m5)$df[2])*summary(m5)$coefficients['age', 'Std. Error'], 
-  summary(m5)$coefficients['age', 'Estimate']+qt(0.975, 
-  summary(m5)$df[2])*summary(m5)$coefficients['age', 'Std. Error'])
-#[1]  77.90310  41.15342 114.65278
