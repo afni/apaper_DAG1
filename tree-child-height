@@ -1,6 +1,6 @@
 # relationship among age, tree height & child height
 
-# simulated data
+# simulated data of age (year), tree and tree height (in centimeter)
 dd <- "
 age   tree     child
 0   29.56364  50.35714
