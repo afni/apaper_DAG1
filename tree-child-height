@@ -1,6 +1,7 @@
 # relationship among age, tree height & child height
 
 # simulated data
+dd <- "
 age   tree     child
 0   29.56364  50.35714
 1   98.25783  57.92467
@@ -20,9 +21,8 @@ age   tree     child
 15 1218.64005 169.73642
 16 1306.34670 177.76773
 17 1377.70919 186.52432
-
-# read in the above data by copy & paste
-dd <- read.delim(pipe("pbpaste"), sep='')
+"
+dd <- read.table(textConnection(dd), header=T)
 
 # 3 models
 m1 <- lm(child~tree, data=dd)
