@@ -2,25 +2,25 @@
 
 # simulated data of age (year), tree and tree height (in centimeter)
 dd <- "
-age   tree     child
-0   29.56364  50.35714
-1   98.25783  57.92467
-2  178.23666  65.67699
-3  261.72844  74.28433
-4  332.64236  81.98700
-5  426.97002  90.71328
-6  504.24909  99.02476
-7  580.99696 104.82360
-8  666.45165 113.76515
-9  737.32421 121.41617
-10  814.04910 129.67762
-11  897.03339 138.07759
-12  986.43290 145.39788
-13 1063.47389 154.30743
-14 1134.01635 163.26986
-15 1218.64005 169.73642
-16 1306.34670 177.76773
-17 1377.70919 186.52432
+ age   tree child
+   0   29.6  50.4
+   1   98.3  57.9
+   2  178.2  65.7
+   3  261.7  74.3
+   4  332.6  82.0
+   5  427.0  90.7
+   6  504.2  99.0
+   7  581.0 104.8
+   8  666.5 113.8
+   9  737.3 121.4
+  10  814.0 129.7
+  11  897.0 138.1
+  12  986.4 145.4
+  13 1063.5 154.3
+  14 1134.0 163.3
+  15 1218.6 169.7
+  16 1306.3 177.8
+  17 1377.7 186.5
 "
 dd <- read.table(textConnection(dd), header=T)
 
@@ -34,7 +34,7 @@ c(summary(m1)$coefficients['tree', 'Estimate'], summary(m1)$coefficients['tree',
   summary(m1)$df[2])*summary(m1)$coefficients['tree', 'Std. Error'], 
   summary(m1)$coefficients['tree', 'Estimate']+qt(0.975, 
   summary(m1)$df[2])*summary(m1)$coefficients['tree', 'Std. Error'])
-#[1] 0.10019925 0.09923493 0.10116357
+#[1] 0.10019338 0.09922737 0.10115938
 
 # point estimate & 95% interval: tree-child association based on model m2
 c(summary(m2)$coefficients['tree', 'Estimate'], 
@@ -42,7 +42,7 @@ c(summary(m2)$coefficients['tree', 'Estimate'],
   summary(m2)$df[2])*summary(m2)$coefficients['tree', 'Std. Error'], 
   summary(m2)$coefficients['tree', 'Estimate']+qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['tree', 'Std. Error'])
-#[1]  0.003516557 -0.062392735  0.069425848
+#[1]  0.004057802 -0.061985409  0.070101014
 
 # point estimate & 95% interval: child growth rate based on model m2
 c(summary(m2)$coefficients['age', 'Estimate'], 
@@ -50,11 +50,11 @@ c(summary(m2)$coefficients['age', 'Estimate'],
   summary(m2)$df[2])*summary(m2)$coefficients['age', 'Std. Error'], 
   summary(m2)$coefficients['age', 'Estimate']+qt(0.975, 
   summary(m2)$df[2])*summary(m2)$coefficients['age', 'Std. Error'])
-#[1]  7.722514  2.458388 12.986639
+#[1]  7.678621  2.403933 12.953308
 
 # point estimate & 95% interval: child growth rate based on model m3
 c(summary(m3)$coefficients['age', 'Estimate'], 
   summary(m3)$coefficients['age', 'Estimate']-qt(0.975,                                                      summary(m3)$df[2])*summary(m3)$coefficients['age', 'Std. Error'], 
   summary(m3)$coefficients['age', 'Estimate']+qt(0.975, 
   summary(m3)$df[2])*summary(m3)$coefficients['age', 'Std. Error'])
-#[1] 8.003359 7.943406 8.063311
+#[1] 8.002683 7.942437 8.062929
