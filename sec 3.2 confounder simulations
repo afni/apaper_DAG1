@@ -1,0 +1,33 @@
+# simulation function used for all scenarios
+sim <- function(nt=50,b0=1,b1=1,b2=1){
+  c  <- rnorm(nt,0,1); x <- rnorm(nt,b0*c,1); y <- rnorm(nt,b1*x+b2*c,1)
+  dd <- data.frame(x=x, c=c, y=y)
+  m0 <- summary(lm(y~x,   data=dd))
+  m1 <- summary(lm(y~x+c, data=dd))
+  return(c(m0$coefficients['x', 'Estimate'],
+           m1$coefficients['x', 'Estimate']))
+}
+
+# simulate the impact when a confounder is not conditioned: overestimation
+res <- replicate(1000, sim(nt=50,b0=1,b1=1,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(0.6, 1.8), ylim=c(0,3.2), main='overestimation')
+lines(density(res[2,]), col='red')
+
+# simulate the impact when a confounder is not conditioned: underestimation 
+res <- replicate(1000, sim(nt=50,b0=-1,b1=1,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(0.2, 1.5), ylim=c(0,3.2), main='underestimation')
+lines(density(res[2,]), col='red')
+
+# simulate the impact when a confounder is not conditioned: masking real association
+res <- replicate(1000, sim(nt=50,b0=-1,b1=1,b2=2))
+dev.new()
+plot(density(res[1,]), xlim=c(-0.5, 1.5), ylim=c(0,3.2), main='masking')
+lines(density(res[2,]), col='red')
+
+# simulate the impact when a confounder is not conditioned: sign flipping
+res <- replicate(1000, sim(nt=50,b0=-1,b1=0.5,b2=2))
+dev.new()
+plot(density(res[1,]), xlim=c(-1.0, 1.0), ylim=c(0,3.2), main='sign flipping')
+lines(density(res[2,]), col='red')
