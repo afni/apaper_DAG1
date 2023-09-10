@@ -31,3 +31,9 @@ res <- replicate(1000, sim(nt=50,b0=-1,b1=1,b2=4))
 dev.new()
 plot(density(res[1,]), xlim=c(-2.0, 1.5), ylim=c(0,3.2), main='sign flipping')
 lines(density(res[2,]), col='red'); abline(v=1, col="blue")
+
+# simulate the impact when a confounder is not conditioned: spurious association
+res <- replicate(1000, sim(nt=50,b0=1,b1=0,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(0.5, 1.0), ylim=c(0,3.2), main='overestimation')
+lines(density(res[2,]), col='red'); abline(v=0, col="blue")
