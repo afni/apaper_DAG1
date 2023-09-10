@@ -1,5 +1,5 @@
 # simulation function used for all scenarios
-sim <- function(nt=50,b0=1,b1=1,b2=1){
+sim  <- function(nt=50,b0=1,b1=1,b2=1) {
   c  <- rnorm(nt,0,1); x <- rnorm(nt,b0*c,1); y <- rnorm(nt,b1*x+b2*c,1)
   dd <- data.frame(x=x, c=c, y=y)
   m0 <- summary(lm(y~x,   data=dd))
