@@ -1,0 +1,41 @@
+# simulation function used for all scenarios in the presence of a collider
+sim <- function(nt=200,diff=1,a1=0,a2=0,b1=1,b2=1) {
+  y  <- rnorm(nt,0,1);    C <- rnorm(nt,a1+b1*y,1)
+  dd <- data.frame(group=-0.5, C=C, y=y)
+  y  <- rnorm(nt,diff,1); C <- rnorm(nt,a2+b2*y,1)
+  dd <- rbind(dd, data.frame(group=0.5, C=C, y=y))
+  m0 <- summary(lm(y~group,   data=dd))
+  m1 <- summary(lm(y~group+C, data=dd))
+  return(c(m0$coefficients['group', 'Estimate'],
+           m1$coefficients['group', 'Estimate']))
+}
+
+# simulate the impact when a collider is conditioned: overestimation
+res <- replicate(1000, sim(nt=200,diff=0.5,a1=2,a2=0,b1=1,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(0.25, 1.5), ylim=c(0,5.2),main='overestimation')
+lines(density(res[2,]), col='red'); abline(v=0.5, col="blue")
+
+# simulate the impact when a collider is conditioned: undestimation
+res <- replicate(1000, sim(nt=200,diff=1,a1=0,a2=0,b1=1,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(0.25, 1.25), ylim=c(0,5.2),main='underestimation')
+lines(density(res[2,]), col='red'); abline(v=1, col="blue")
+
+# simulate the impact when a collider is conditioned: masking real effect
+res <- replicate(1000, sim(nt=200,diff=1,a1=0,a2=0,b1=1,b2=3))
+dev.new()
+plot(density(res[1,]), xlim=c(-0.25, 1.25), ylim=c(0,6.2),main='masking')
+lines(density(res[2,]), col='red'); abline(v=1, col="blue")
+
+# simulate the impact when a collider is conditioned: masking real effect
+res <- replicate(1000, sim(nt=200,diff=0.5,a1=2,a2=0,b1=-1,b2=-0.5))
+dev.new()
+plot(density(res[1,]), xlim=c(-0.75, 0.75), ylim=c(0,5.2),main='sign flipping')
+lines(density(res[2,]), col='red'); abline(v=0.5, col="blue")
+
+# simulate the impact when a collider is conditioned: spurious effect
+res <- replicate(1000, sim(nt=200,diff=0,a1=0,a2=-1,b1=1,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(-.5, .7), ylim=c(0,5.2),main='spurious effect')
+lines(density(res[2,]), col='red'); abline(v=0, col="blue")
