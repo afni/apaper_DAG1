@@ -1,0 +1,42 @@
+# simulation function used for all scenarios of total effect in the presence of a mediator
+sim <- function(nt=200,diff=1,a1=0,a2=0,b1=1,b2=1) {
+  M <- rnorm(nt,0,1);    y <- rnorm(nt,a1+b1*M,1)
+  dd <- data.frame(group=-0.5, M=M, y=y)
+  M <- rnorm(nt,diff,1); y <- rnorm(nt,a2+b2*M,1)
+  dd <- rbind(dd, data.frame(group=0.5, M=M, y=y))
+  m0 <- summary(lm(y~group,   data=dd))
+  m1 <- summary(lm(y~group+M, data=dd))
+  return(c(m0$coefficients['group', 'Estimate'],
+           m1$coefficients['group', 'Estimate']))
+}
+
+# simulate the impact when a mediator is conditioned: overestimation
+res <- replicate(1000, sim(nt=200,diff=1,a1=0,a2=0,b1=-2,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(0.5, 2.0), ylim=c(0,2.2),main='overestimation')
+lines(density(res[2,]), col='red'); abline(v=1, col="blue")
+
+# simulate the impact when mediator is conditioned: underestimation 
+res <- replicate(1000, sim(nt=200,diff=1,a1=0,a2=0,b1=1,b2=2))
+dev.new()
+plot(density(res[1,]), xlim=c(0, 2.5), ylim=c(0,3.5),main='underestimation')
+lines(density(res[2,]), col='red'); abline(v=2, col="blue")
+
+# simulate the impact when mediator is conditioned: masking real association
+res <- replicate(1000, sim(nt=200,diff=1,a1=0,a2=0,b1=1,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(-0.5, 1.5), ylim=c(0,3.5),main='masking')
+lines(density(res[2,]), col='red'); abline(v=1, col="blue")
+
+# simulate the impact when mediator is conditioned: sign flipping
+res <- replicate(1000, sim(nt=200,diff=4/3,a1=0,a2=0,b1=1,b2=0.375))
+dev.new()
+plot(density(res[1,]), xlim=c(-0.75, 0.75), ylim=c(0,3.2),main='sign flipping')
+lines(density(res[2,]), col='red'); abline(v=0.5, col="blue")
+
+# simulate the impact when mediator is conditioned: spurious difference
+res <- replicate(1000, sim(nt=200,diff=-1,a1=0,a2=1,b1=1,b2=1))
+dev.new()
+plot(density(res[1,]), xlim=c(-0.5, 1.5), ylim=c(0,3.2),main='spurious difference')
+lines(density(res[2,]), col='red'); abline(v=0, col="blue")
+
