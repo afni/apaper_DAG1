@@ -1,0 +1,10 @@
+# function that simulates the impact of reversing predictor and response
+sim <- function(np=200) {
+  x <- rnorm(np); y <- rnorm(np,x,1)
+  return(c(summary(lm(y~x))$coefficients['x','Estimate'], 
+           summary(lm(x~y))$coefficients['y','Estimate']))
+}
+res <- replicate(1000, sim())
+dev.new()
+plot(density(res[1,]), xlim=c(0.25, 1.25), ylim=c(0,12),main='impact of reversing X and Y')
+lines(density(res[2,]), col='red'); abline(v=1, col="blue")
