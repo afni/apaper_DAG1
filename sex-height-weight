@@ -80,7 +80,19 @@ c(summary(m9)$coefficients['sex','Estimate'], summary(m9)$coefficients['sex','Es
 ##### one model in Section 4.3 - centered height
 dd <- transform(dat, heightC=ave(height, sex, 
         FUN=function(x) scale(x, center = TRUE, scale = FALSE)))
-m5 <- lm(weight ~ heightC * sex, data = dd)
+
+# model with interaction
+m5 <- lm(weight ~ heightC * sex, data = dd)  
 c(summary(m5)$coefficients['sex','Estimate'], summary(m5)$coefficients['sex','Estimate']-
-  qt(0.025, summary(m5)$df[2], lower.tail = F)*summary(m5)$coefficients['sex','Std. Error'], summary(m5)$coefficients['sex','Estimate']+qt(0.025, summary(m5)$df[2], lower.tail = F)*summary(m5)$coefficients['sex','Std. Error'])
+  qt(0.025, summary(m5)$df[2], lower.tail = F)*summary(m5)$coefficients['sex','Std. Error'], 
+  summary(m5)$coefficients['sex','Estimate']+qt(0.025, summary(m5)$df[2], lower.tail = F)*
+  summary(m5)$coefficients['sex','Std. Error'])
 #[1] 19.00584 16.74605 21.26563
+
+# model without interaction
+m6 <- lm(weight ~ heightC + sex, data = dd)
+c(summary(m6)$coefficients['sex','Estimate'], summary(m6)$coefficients['sex','Estimate']-
+  qt(0.025, summary(m6)$df[2], lower.tail = F)*summary(m6)$coefficients['sex','Std. Error'], 
+  summary(m6)$coefficients['sex','Estimate']+qt(0.025, summary(m6)$df[2], lower.tail = F)*
+  summary(m6)$coefficients['sex','Std. Error'])
+#[1] 19.00584 16.72970 21.28197
