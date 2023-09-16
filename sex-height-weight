@@ -104,4 +104,4 @@ c(summary(m10)$coefficients['sex','Estimate'], summary(m10)$coefficients['sex','
   qt(0.025, summary(m10)$df[2], lower.tail = F)*summary(m10)$coefficients['sex','Std. Error'], 
   summary(m10)$coefficients['sex','Estimate']+qt(0.025, summary(m10)$df[2], lower.tail = F)*
   summary(m10)$coefficients['sex','Std. Error'])
-#15.182938  7.469974 22.895903
+#[1]  15.182938  7.469974 22.895903
