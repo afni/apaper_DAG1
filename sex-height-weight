@@ -77,7 +77,7 @@ c(summary(m9)$coefficients['sex','Estimate'], summary(m9)$coefficients['sex','Es
   summary(m9)$coefficients['sex','Std. Error'])
 #[1] 7.010686 4.946643 9.074729
 
-##### one model in Section 4.3 - centered height
+##### model in Section 4.3 - centered height
 dd <- transform(dat, heightC=ave(height, sex, 
         FUN=function(x) scale(x, center = TRUE, scale = FALSE)))
 
@@ -96,3 +96,12 @@ c(summary(m6)$coefficients['sex','Estimate'], summary(m6)$coefficients['sex','Es
   summary(m6)$coefficients['sex','Estimate']+qt(0.025, summary(m6)$df[2], lower.tail = F)*
   summary(m6)$coefficients['sex','Std. Error'])
 #[1] 19.00584 16.72970 21.28197
+
+##### estimate sex difference in weight with height of 190 cm
+d190 <- dat; d190$height <- d190$height-190
+m10 <- lm(weight ~ height * sex, data = d190)
+c(summary(m10)$coefficients['sex','Estimate'], summary(m10)$coefficients['sex','Estimate']-
+  qt(0.025, summary(m10)$df[2], lower.tail = F)*summary(m10)$coefficients['sex','Std. Error'], 
+  summary(m10)$coefficients['sex','Estimate']+qt(0.025, summary(m10)$df[2], lower.tail = F)*
+  summary(m10)$coefficients['sex','Std. Error'])
+#15.182938  7.469974 22.895903
