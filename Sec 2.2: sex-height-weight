@@ -5,7 +5,7 @@ dat <- read.table("https://www.mv.helsinki.fi/home/mjxpirin/HDS_course/material/
                   as.is = T, header=T)
 dat$sex <- ifelse(dat$sex=='F', -0.5, 0.5)  # dummy-coding sex
 
-# 7 models in section 2.3
+# 7 models in section 2.2
 m1 <- lm(weight ~ sex, data = dat)
 m2 <- lm(weight ~ height, data = dat)
 m3 <- lm(weight ~ height + sex, data = dat)
